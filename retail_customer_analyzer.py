@@ -49,3 +49,18 @@ print(df.groupby("City")["TotalSpent"].sum())
 # Sorting Customers by Spending
 print("\n===== CUSTOMER SPENDING RANKING =====")
 print(df.sort_values(by="TotalSpent", ascending=False))
+
+# Creating Bar Chart
+plt.figure(figsize=(10, 5))
+plt.bar(df["Name"], df["TotalSpent"])
+
+plt.title("Retail Customer Spending Analysis")
+plt.xlabel("Customer Name")
+plt.ylabel("Total Spending (Rs.)")
+plt.xticks(rotation=45)
+
+plt.tight_layout()
+plt.savefig("output.png")
+plt.show()
+
+print("\nAnalysis Completed Successfully!")
