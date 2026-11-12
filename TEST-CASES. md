@@ -1,0 +1,39 @@
+TEST CASES – Retail Customer Analyzer
+
+Test Case 1: Normal Input
+
+Input: Spending Statistics
+
+Expected Output:
+
+- Mean Spend: Rs. 9125.00
+- Median Spend: Rs. 7500.00
+- Highest: Chitra (Rs. 25000)
+- Lowest: Deepak (Rs. 800)
+
+Test Case 2: High Value Customers
+
+Input: Limit = 25000
+
+Expected Output:
+C03 | Chitra | Raipur | Rs. 25000
+
+Test Case 3: Invalid Input
+
+Input 1: abc
+
+Expected Output:
+Invalid amount. Please enter a number.
+
+Input 2: -500
+
+Expected Output:
+Amount must be 0 or more.
+
+Test Case 4: City Wise Summary
+
+Expected Output:
+
+- Raipur: Total Rs. 43000 | Average Rs. 14333.33
+- Bhilai: Total Rs. 15800 | Average Rs. 7900.00
+- Durg: Total Rs. 14200 | Average Rs. 4733.33
