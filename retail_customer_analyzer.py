@@ -1,66 +1,105 @@
-import pandas as pd
+ import pandas as pd
 
-# Creating Customer Data
-data = {
-    "CustomerID": ["C01", "C02", "C03", "C04", "C05",
-                   "C06", "C07", "C08", "C09", "C10"],
+    # Loading Customer Data
+    def load_data():
+        try:
+            df = pd.read_csv("customers.csv")
+            return df
+        except FileNotFoundError:
+            print("Error: customers.csv file not found.")
+            return None
 
-    "Name": ["Asha", "Rahul", "Aman", "Priya", "Rohit",
-             "Neha", "Karan", "Sneha", "Vikas", "Anjali"],
 
-    "City": ["Raipur", "Bhilai", "Raipur", "Durg", "Bhilai",
-             "Raipur", "Durg", "Bhilai", "Raipur", "Durg"],
+    # Spending Statistics
+    def spending_statistics(df):
+        mean_spend = df["TotalSpent"].mean()
+        median_spend = df["TotalSpent"].median()
 
-    "Purchases": [5, 3, 8, 2, 6, 4, 7, 3, 5, 9],
+        highest = df.loc[df["TotalSpent"].idxmax()]
+        lowest = df.loc[df["TotalSpent"].idxmin()]
 
-    "TotalSpent": [12000, 6000, 25000, 3000, 15000,
-                   9000, 18000, 4000, 11000, 30000]
-}
+        print(f"Mean spend: Rs. {mean_spend:.2f}")
+        print(f"Median spend: Rs. {median_spend:.2f}")
+        print(f"Highest: {highest['Name']} (Rs. {int(highest['TotalSpent'])})")
+        print(f"Lowest: {lowest['Name']} (Rs. {int(lowest['TotalSpent'])})")
 
-# Creating DataFrame
-df = pd.DataFrame(data)
 
-# Display Customer Data
-print("===== RETAIL CUSTOMER DATA =====")
-print(df)
+    # High Value Customers
+    def high_value_customers(df):
+        limit_input = input("Enter spending limit: ")
 
-# Total Customers
-print("\nTotal Customers:", len(df))
+        try:
+            limit = float(limit_input)
 
-# Total Purchases
-print("Total Purchases:", df["Purchases"].sum())
+            if limit < 0:
+                print("Amount must be 0 or more.")
+                return
 
-# Total Revenue
-print("Total Revenue: Rs.", df["TotalSpent"].sum())
+            customers = df[df["TotalSpent"] >= limit]
 
-# Average Spending
-print("Average Spending: Rs.", df["TotalSpent"].mean())
+            display_limit = int(limit) if limit.is_integer() else limit
+            print(f"\nHigh-value customers (TotalSpent >= {display_limit}):")
 
-# Highest Spending Customer
-highest = df.loc[df["TotalSpent"].idxmax()]
+            if customers.empty:
+                print("No customers found.")
+            else:
+                for _, row in customers.iterrows():
+                    print(
+                        row["CustomerID"], "|",
+                        row["Name"], "|",
+                        row["City"], "| Rs.",
+                        int(row["TotalSpent"])
+                    )
 
-print("\n===== HIGHEST SPENDING CUSTOMER =====")
-print(highest)
+        except ValueError:
+            print("Invalid amount. Please enter a number.")
 
-# City Wise Analysis
-print("\n===== CITY WISE CUSTOMER ANALYSIS =====")
-print(df.groupby("City")["TotalSpent"].sum())
 
-# Sorting Customers by Spending
-print("\n===== CUSTOMER SPENDING RANKING =====")
-print(df.sort_values(by="TotalSpent", ascending=False))
+    # City Wise Summary
+    def city_wise_summary(df):
+        summary = df.groupby("City")["TotalSpent"].agg(
+            ["sum", "mean"]
+        ).sort_values(by="sum", ascending=False)
 
-# Creating Bar Chart
-plt.figure(figsize=(10, 5))
-plt.bar(df["Name"], df["TotalSpent"])
+        for city, row in summary.iterrows():
+            print(
+                f"{city} : Total Rs. {int(row['sum'])} | "
+                f"Average Rs. {row['mean']:.2f}"
+            )
 
-plt.title("Retail Customer Spending Analysis")
-plt.xlabel("Customer Name")
-plt.ylabel("Total Spending (Rs.)")
-plt.xticks(rotation=45)
 
-plt.tight_layout()
-plt.savefig("output.png")
-plt.show()
+    # Main Program
+    def main():
+        df = load_data()
 
-print("\nAnalysis Completed Successfully!")
+        if df is None:
+            return
+
+        while True:
+            print("\n===== RETAIL CUSTOMER ANALYZER =====")
+            print("1. Spending statistics")
+            print("2. High-value customers")
+            print("3. City-wise summary")
+            print("4. Exit")
+
+            choice = input("Enter your choice: ").strip().lower()
+
+            if choice in ["1", "spending statistics"]:
+                spending_statistics(df)
+
+            elif choice in ["2", "high-value customers"]:
+                high_value_customers(df)
+
+            elif choice in ["3", "city-wise summary"]:
+                city_wise_summary(df)
+
+            elif choice in ["4", "exit"]:
+                print("Thank you for using Retail Customer Analyzer!")
+                break
+
+            else:
+                print("Invalid menu choice. Please try again.")
+
+
+    if __name__ == "__main__":
+        main()
