@@ -1,19 +1,21 @@
-Retail Customer Analyzer
 
-Project Overview
+# Retail Customer Analyzer
+
+## Project Overview
 
 Retail Customer Analyzer is a Python-based data analysis project that analyzes customer purchasing data using the Pandas library.
 
 The project helps understand customer spending patterns, purchase behavior, and city-wise sales performance.
 
-Technologies Used
+## Technologies Used
 
 - Python
 - Pandas
+- Matplotlib
 - Google Colab
 - GitHub
 
-Features
+## Features
 
 - Customer data management
 - Total customer purchases analysis
@@ -21,8 +23,10 @@ Features
 - City-wise customer analysis
 - Highest spending customer identification
 - Average spending calculation
+- Customer spending ranking
+- Data visualization using bar charts
 
-Dataset
+## Dataset
 
 The project contains information about 10 customers, including:
 
@@ -32,17 +36,22 @@ The project contains information about 10 customers, including:
 - Number of Purchases
 - Total Amount Spent
 
-How to Run
+## How to Run
 
 1. Install Python.
-2. Install Pandas using "pip install pandas".
-3. Open the Python file.
-4. Run the program.
+2. Install required libraries using:
 
-Author
+   pip install -r requirements.txt
+
+3. Open the Python file.
+4. Run the program:
+
+   python customer_analyzer.py
+
+## Author
 
 Rishabh Sinha
 
-Project Name
+## Project Name
 
 Retail Customer Analyzer
